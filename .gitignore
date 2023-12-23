@@ -4,6 +4,9 @@ __pycache__
 finetune_demo/output
 finetune_demo/data
 finetune_demo/formatted_data
+finetune_chatmodel_demo/output
+finetune_chatmodel_demo/wandb
+**/.ipynb_checkpoints/
 ToolAlpaca/
 AdvertiseGen/
 *.gz

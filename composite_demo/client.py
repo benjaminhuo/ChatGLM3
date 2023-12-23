@@ -10,6 +10,7 @@ from huggingface_hub.inference._text_generation import TextGenerationStreamRespo
 from transformers import AutoModel, AutoTokenizer, AutoConfig
 from transformers.generation.logits_process import LogitsProcessor
 from transformers.generation.utils import LogitsProcessorList
+from safetensors.torch import load_file
 
 from conversation import Conversation
 
@@ -131,15 +132,17 @@ class HFClient(Client):
             config = AutoConfig.from_pretrained(
                 model_path,
                 trust_remote_code=True,
-                pre_seq_len=PRE_SEQ_LEN
+                pre_seq_len=PRE_SEQ_LEN,
+                use_safetensors=True
             )
             self.model = AutoModel.from_pretrained(
                 model_path,
                 trust_remote_code=True,
                 config=config,
-                device_map="auto"
+                device_map="auto",
+                use_safetensors=True
             ).eval()
-            prefix_state_dict = torch.load(os.path.join(pt_checkpoint, "pytorch_model.bin"))
+            prefix_state_dict = load_file(os.path.join(pt_checkpoint, "model.safetensors"))
             new_prefix_state_dict = {}
             for k, v in prefix_state_dict.items():
                 if k.startswith("transformer.prefix_encoder."):
