@@ -1,14 +1,20 @@
 __pycache__
 
 # finetune_demo: generated & downloaded files
-finetune_demo/output
-finetune_demo/data
+*/output
+*/wandb
 finetune_demo/formatted_data
+<<<<<<< HEAD
 finetune_chatmodel_demo/output
 finetune_chatmodel_demo/wandb
+=======
+>>>>>>> 4eae424 (Adjust finetune params)
 **/.ipynb_checkpoints/
 ToolAlpaca/
 AdvertiseGen/
 *.gz
 *.idea
+<<<<<<< HEAD
 .DS_Store
+=======
+>>>>>>> 4eae424 (Adjust finetune params)

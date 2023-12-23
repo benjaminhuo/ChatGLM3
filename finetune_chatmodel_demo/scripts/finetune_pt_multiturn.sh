@@ -5,7 +5,7 @@ set -ex
 PRE_SEQ_LEN=128
 LR=2e-2
 NUM_GPUS=1
-MAX_SEQ_LEN=2048
+MAX_SEQ_LEN=3096
 DEV_BATCH_SIZE=1
 GRAD_ACCUMULARION_STEPS=16
 MAX_STEP=1000
@@ -16,6 +16,14 @@ RUN_NAME=tool_alpaca_pt
 
 BASE_MODEL_PATH=THUDM/chatglm3-6b
 DATASET_PATH=formatted_data/tool_alpaca.jsonl
+
+# customized params
+DATASET_PATH=/root/llms/kse-docs/qa/kse-conversation-dataset.jsonl
+RUN_NAME=ksai
+SAVE_INTERVAL=5
+MAX_STEP=150
+SAVE_SAFETENSORS=True
+
 OUTPUT_DIR=output/${RUN_NAME}-${DATESTR}-${PRE_SEQ_LEN}-${LR}
 
 mkdir -p $OUTPUT_DIR
@@ -32,5 +40,6 @@ torchrun --standalone --nnodes=1 --nproc_per_node=$NUM_GPUS finetune.py \
     --max_steps $MAX_STEP \
     --logging_steps 1 \
     --save_steps $SAVE_INTERVAL \
+    --save_safetensors $SAVE_SAFETENSORS \
     --learning_rate $LR \
     --pre_seq_len $PRE_SEQ_LEN 2>&1 | tee ${OUTPUT_DIR}/train.log
